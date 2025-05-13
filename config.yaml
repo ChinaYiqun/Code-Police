@@ -1,0 +1,57 @@
+rules:
+  # 安全相关规则
+  hardcoded_secret:
+    level: error
+    message: "Hardcoded sensitive information detected"
+    node_type: SimpleString
+    options:
+      bad_pattern: ["password", "token", "secret"]
+    fix: "Use environment variables to store sensitive information"
+
+  unsafe_eval:
+    level: error
+    message: "Unsafe use of eval() detected"
+    node_type: Call
+    options:
+      bad_pattern: ["eval"]
+    fix: "Use safer alternatives like ast.literal_eval() instead of eval()"
+
+  # 性能相关规则
+  nested_list_comprehension:
+    level: warning
+    message: "Nested list comprehension detected, which may affect performance"
+    node_type: ListComp
+    options:
+      max_depth: 1
+    fix: "Refactor nested list comprehensions into regular loops for better readability and performance"
+
+  repeated_calculation:
+    level: warning
+    message: "Repeated function calls in list comprehension detected, which may cause performance issues"
+    node_type: ListComp
+    options:
+      bad_pattern: ["function_call"]
+    fix: "Move the repeated calculation outside the loop"
+
+  # 编码规范相关规则
+  naming_convention:
+    level: warning
+    message: "Function or variable names do not follow snake_case convention"
+    node_type: FunctionDef
+    options:
+      bad_pattern: "[A-Z]"
+    fix: "Rename functions and variables to follow the snake_case convention"
+
+  unused_import:
+    level: warning
+    message: "Unused import detected"
+    node_type: Import
+    fix: "Remove unused import statements"
+
+  max_line_length:
+    level: warning
+    message: "Line length exceeds the maximum limit"
+    node_type: SimpleStatementLine
+    options:
+      length: 120
+    fix: "Split long lines into multiple lines for better readability"
